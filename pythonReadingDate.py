@@ -7,43 +7,40 @@ CodRrepres = []
 TipoPess = []
 NomeFan = []
 ComissaoBase = []
-i = 0
 
+i = 0
 arq = open("Repres.CSV", "r")
 s = arq.readline().rstrip()
-while s != '':
-    s = s.split(';')
-    if(i>0):    
-        CodRrepres.append(s[0])
+while s != "":
+    s = s.split(";")
+    if i > 0:
+        CodRrepres.append(int(s[0]))
         TipoPess.append(str(s[1]))
         NomeFan.append(str(s[2]))
-        ComissaoBase.append(s[3])
-    # CodRrepres.append(int(s[0]))
-    # TipoPess.append(str(s[1]))
-    # NomeFan.append(str(s[2]))
-    # ComissaoBase.append(float(s[3]))
-    s = arq.readline().rstrip()    
+        ComissaoBase.append(float(str(s[3].replace(",", "."))))
+    s = arq.readline().rstrip()
+    i += 1
 arq.close
 
-# sql = '''
-#     CREATE TABLE IF NOT EXISTS Repres
-#     (
-#     CODREPRES integer primary key,
-#     TIPOPESS string,
-#     NOMEFAN stirng,
-#     COMISSAOBASE numeric
-#     )
-# '''
-# cursor.execute(sql)
+sql = """
+    CREATE TABLE IF NOT EXISTS Repres
+    (
+    CODREPRES integer primary key,
+    TIPOPESS string,
+    NOMEFAN stirng,
+    COMISSAOBASE numeric
+    )
+"""
+cursor.execute(sql)
 
-# print("Tabela Repres Criada 🚀")
+print("Tabela Repres Criada 🚀")
 
-# for i in range(len(CODREPRES)):
-#     sql = f'''
-#         INSERT INTO Repres (CODREPRES, TIPOPESS, NOMEFAN, COMISSAOBASE)
-#         VALUES ({CODREPRES[i]}, '{TIPOPESS[i]}', '{NOMEFAN[i]}', {COMISSAOBASE[i]})
-#     '''
-    # cursor.execute(sql)
+for i in range(len(CodRrepres)):
+    sql = f"""
+        INSERT INTO Repres (CODREPRES, TIPOPESS, NOMEFAN, COMISSAOBASE)
+        VALUES ({CodRrepres[i]}, '{TipoPess[i]}', '{NomeFan[i]}', {ComissaoBase[i]})
+    """
+    cursor.execute(sql)
 
 print("Valores Adicionados com Sucesso!")
 
@@ -51,6 +48,3 @@ print("Valores Adicionados com Sucesso!")
 connector.commit()
 cursor.close
 connector.close()
-
-        
-    
