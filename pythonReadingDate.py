@@ -27,7 +27,7 @@ sql = """
     (
     CODREPRES integer primary key,
     TIPOPESS string,
-    NOMEFAN stirng,
+    NOMEFAN string,
     COMISSAOBASE numeric
     )
 """
@@ -46,32 +46,32 @@ print("Valores Adicionados com Sucesso!")
 
 i = 0
 
-CODCLIFOR = []
-TIPOCF = []
-CODREPRES = []
-NOMEFAN = []
-CIDADE = []
-UF = []
-CODMUNICIPIO = []
-TIPOPESSOA = []
-COBRBANC = []
-PRAZOPGTO = []
+CodCliFor = []
+TipoCF = []
+CodRepres = []
+NomeFan = []
+Cidade = []
+Uf = []
+CodMunicipio = []
+TipoPessoa = []
+Cobranc = []
+PrazoPgto = []
 
 arq = open("FornClien.CSV")
 s = arq.readline().rstrip()
 while s != "":
     s = s.split(";")
     if i > 0:
-        CODCLIFOR.append(float(s[0]))
-        TIPOCF.append(int(s[1]))
-        CODREPRES.append(str(s[2]))
-        NOMEFAN.append(str(s[3]))
-        CIDADE.append(str(s[4]))
-        UF.append(str(s[5]))
-        CODMUNICIPIO.append(str(s[6]))
-        TIPOPESSOA.append(int(s[7]))
-        COBRBANC.append(int(s[8]))
-        PRAZOPGTO.append(str(s[9]))
+        CodCliFor.append(int(str(s[0].replace(".", ""))))
+        TipoCF.append(int(s[1]))
+        CodRepres.append(str(s[2]))
+        NomeFan.append(str(s[3]))
+        Cidade.append(str(s[4]))
+        Uf.append(str(s[5]))
+        CodMunicipio.append(str(s[6]))
+        TipoPessoa.append(int(s[7]))
+        Cobranc.append(int(s[8]))
+        PrazoPgto.append(str(s[9]))
     s = arq.readline().rstrip()
     i += 1
 arq.close
@@ -79,7 +79,7 @@ arq.close
 sql = """
     CREATE TABLE IF NOT EXISTS FornClien
     (
-    CODCLIFOR numeric primary key,
+    CODCLIFOR integer primary key,
     TIPOCF integer,
     CODREPRES string,
     NOMEFAN string,
@@ -93,14 +93,14 @@ sql = """
 """
 cursor.execute(sql)
 
-for i in range(len(CODCLIFOR)):
+for i in range(len(CodCliFor)):
     sql = f"""
         INSERT INTO FornClien (CODCLIFOR, TIPOCF, CODREPRES, NOMEFAN, CIDADE, UF, CODMUNICIPIO, TIPOPESSOA, COBRBANC, PRAZOPGTO)
-        VALUES ({CODCLIFOR[i]}, {TIPOCF[i]}, '{CODREPRES[i]}', '{NOMEFAN[i]}', '{CIDADE[i]}', '{UF[i]}', '{CODMUNICIPIO[i]}', {TIPOPESSOA[i]}, {COBRBANC[i]}, '{PRAZOPGTO[i]}')
+        VALUES ({CodCliFor[i]}, {TipoCF[i]}, '{CodRepres[i]}', '{NomeFan[i]}', '{Cidade[i]}', '{Uf[i]}', '{CodMunicipio[i]}', {TipoPessoa[i]}, {Cobranc[i]}, '{PrazoPgto[i]}')
     """
     cursor.execute(sql)
 
-print("Valores Adicionados com Sucesso!")
+print("Valores Adicionados com Sucesso a ClienFor!")
 
 connector.commit()
 cursor.close
