@@ -3,6 +3,11 @@ import sqlite3
 connector = sqlite3.connect("Loja.db")
 cursor = connector.cursor()
 
+print("""\nIntegrantes:
+Nome: Caic Mateus Freitas Silva RA: 1680482212021
+Nome: Guilherme de Souza Videira RA:1680482212026
+Nome: Vinicius Henrique Gomes Vieira RA: 1680482212043\n""")
+
 CodRrepres = []
 TipoPess = []
 NomeFan = []
@@ -23,7 +28,7 @@ while s != "":
         CodRrepres.append(int(s[0]))
         TipoPess.append(str(s[1]))
         NomeFan.append(str(s[2]))
-        ComissaoBase.append(float(str(s[3].replace(",", "."))))
+        ComissaoBase.append(str(s[3]))
     s = arq.readline().rstrip()
     i += 1
 arq.close
@@ -34,7 +39,7 @@ sql = """
     CODREPRES INTEGER PRIMARY KEY,
     TIPOPESS TEXT,
     NOMEFAN TEXT,
-    COMISSAOBASE REAL
+    COMISSAOBASE TEXT
     )
 """
 cursor.execute(sql)
@@ -63,7 +68,7 @@ TipoPessoa = []
 Cobranc = []
 PrazoPgto = []
 
-arq = open("FornClien.CSV")
+arq = open("FornClien.CSV",  encoding='utf-8')
 s = arq.readline().rstrip()
 while s != "":
     s = s.split(";")
@@ -99,6 +104,8 @@ sql = """
     )
 """
 cursor.execute(sql)
+print("Tabela FornClien Criada 🚀")
+
 
 for i in range(len(CodCliFor)):
     sql = f"""
@@ -107,7 +114,7 @@ for i in range(len(CodCliFor)):
     """
     cursor.execute(sql, (CodCliFor[i], TipoCF[i], CodRepres[i], NomeFan[i], Cidade[i], Uf[i], CodMunicipio[i], TipoPessoa[i], Cobranc[i], PrazoPgto[i]))
 
-print("Valores Adicionados com Sucesso a ClienFor!")
+print("Valores Adicionados com Sucesso a FornClien!")
 
 
 NUMPED = []
@@ -130,8 +137,7 @@ while s != "":
     if i > 0:
         NUMPED.append(float(s[0]))
         NUMITEM.append(int(s[1]))
-        # CODPROD.append(float(s[2].replace(".", "")))
-        CODPROD.append(float(s[2]))
+        CODPROD.append(int(s[2].replace(".", "")))
         QTDE.append(str(s[3]))
         VALUNIT.append(str(s[4]))
         UNID.append(str(s[5]))
@@ -163,6 +169,8 @@ sql = """
     )
 """
 cursor.execute(sql)
+print("Tabela PedidosItem Criada 🚀")
+
 
 for i in range(len(NUMITEM)):
     sql = f"""
@@ -214,7 +222,7 @@ arq.close
 sql = """
     CREATE TABLE IF NOT EXISTS Produtos
     (
-    CODPROD INTEGER PRIMARY KEY,
+    CODPROD REAL PRIMARY KEY,
     NOMEPROD TEXT,
     CODFORNE TEXT,
     UNIDADE TEXT,  
@@ -230,6 +238,8 @@ sql = """
     )
 """
 cursor.execute(sql)
+print("Tabela Produtos Criada 🚀")
+
 
 for i in range(len(CODPROD)):
     sql = """
@@ -243,7 +253,7 @@ print("Valores Adicionados com Sucesso a Produtos!")
 
 
 NUMPED = []
-DATAPED	 =[ ]
+DATAPED	 =[]
 HORAPED = []
 CODCLIEN = []
 ES = []
@@ -265,7 +275,7 @@ s = arq.readline().rstrip()
 while s != "":
     s = s.split(";")
     if i > 0:
-        NUMPED.append(int(str(s[0].replace(".", ""))))
+        NUMPED.append(float(s[0]))
         DATAPED.append(str(s[1]))
         HORAPED.append(str(s[2]))
         CODCLIEN.append(str(s[3]))
@@ -286,7 +296,7 @@ arq.close
 
 sql = """
    CREATE TABLE IF NOT EXISTS Pedidos (
-    NUMPED INTEGER PRIMARY KEY,
+    NUMPED REAL PRIMARY KEY,
     DATAPED TEXT,
     HORAPED TEXT,
     CODCLIEN TEXT,
@@ -304,6 +314,8 @@ sql = """
 );
 """
 cursor.execute(sql)
+print("Tabela Pedidos Criada 🚀")
+
 
 for i in range(len(NUMPED)):
     sql = """
@@ -327,8 +339,6 @@ for i in range(len(NUMPED)):
         VALICMS[i],
         COMISSAO[i]
     ))
-
-
 print("Valores Adicionados com Sucesso a Pedidos!")
 
 
