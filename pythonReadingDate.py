@@ -34,7 +34,7 @@ sql = """
     CODREPRES INTEGER PRIMARY KEY,
     TIPOPESS TEXT,
     NOMEFAN TEXT,
-    COMISSAOBASE NUMERIC
+    COMISSAOBASE REAL
     )
 """
 cursor.execute(sql)
@@ -87,14 +87,15 @@ sql = """
     (
     CODCLIFOR INTEGER PRIMARY KEY,
     TIPOCF INTEGER,
-    CODREPRES TEXT,
+    CODREPRES INTEGER,
     NOMEFAN TEXT,
     CIDADE TEXT,
     UF TEXT,
-    CODMUNICIPIO TEXT,
+    CODMUNICIPIO INTEGER,
     TIPOPESSOA INTEGER,
     COBRBANC INTEGER,
-    PRAZOPGTO TEXT
+    PRAZOPGTO INTEGER,
+    FOREIGN KEY (CODREPRES) REFERENCES Repres(CODREPRES)
     )
 """
 cursor.execute(sql)
@@ -127,9 +128,10 @@ s = arq.readline().rstrip()
 while s != "":
     s = s.split(";")
     if i > 0:
-        NUMPED.append(str(s[0]))
+        NUMPED.append(float(s[0]))
         NUMITEM.append(int(s[1]))
-        CODPROD.append(str(s[2].replace(".", "")))
+        # CODPROD.append(float(s[2].replace(".", "")))
+        CODPROD.append(float(s[2]))
         QTDE.append(str(s[3]))
         VALUNIT.append(str(s[4]))
         UNID.append(str(s[5]))
@@ -146,9 +148,9 @@ sql = """
     CREATE TABLE IF NOT EXISTS PedidosItem
     (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    NUMPED TEXT,
+    NUMPED REAL,
     NUMITEM INTEGER,
-    CODPROD TEXT,
+    CODPROD REAL,
     QTDE TEXT,
     VALUNIT TEXT,
     UNID TEXT,
@@ -156,7 +158,8 @@ sql = """
     COMISSAO TEXT,
     STICMS INTEGER,
     CFOP TEXT,
-    REDUCBASEICMS TEXT
+    REDUCBASEICMS TEXT,
+    FOREIGN KEY (CODPROD) REFERENCES Produtos(CODPROD)
     )
 """
 cursor.execute(sql)
@@ -239,21 +242,21 @@ for i in range(len(CODPROD)):
 print("Valores Adicionados com Sucesso a Produtos!")
 
 
-NUMPED =[]
-DATAPED	 =[]
-HORAPED =[]
-CODCLIEN =[]
-ES =[]
-FINALIDNFE =[]
-SITUACAO =[]
-PESO =[]
-PRAZOPGTO =[]
-VALORPRODS =[]
-VALORDESC =[]
-VALOR =[]
-VALBASEICMS =[]
-VALICMS =[]
-COMISSAO =[]
+NUMPED = []
+DATAPED	 =[ ]
+HORAPED = []
+CODCLIEN = []
+ES = []
+FINALIDNFE = []
+SITUACAO = []
+PESO = []
+PRAZOPGTO = []
+VALORPRODS = []
+VALORDESC = []
+VALOR = []
+VALBASEICMS = []
+VALICMS = []
+COMISSAO = []
 
 
 i=0
