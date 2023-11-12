@@ -236,6 +236,97 @@ for i in range(len(CODPROD)):
 
 print("Valores Adicionados com Sucesso a Produtos!")
 
+
+NUMPED =[]
+DATAPED	 =[]
+HORAPED =[]
+CODCLIEN =[]
+ES =[]
+FINALIDNFE =[]
+SITUACAO =[]
+PESO =[]
+PRAZOPGTO =[]
+VALORPRODS =[]
+VALORDESC =[]
+VALOR =[]
+VALBASEICMS =[]
+VALICMS =[]
+COMISSAO =[]
+
+
+i=0
+arq = open("Pedidos.CSV")
+s = arq.readline().rstrip()
+while s != "":
+    s = s.split(";")
+    if i > 0:
+        NUMPED.append(int(str(s[0].replace(".", ""))))
+        DATAPED.append(str(s[1]))
+        HORAPED.append(str(s[2]))
+        CODCLIEN.append(str(s[3]))
+        ES.append(str(s[4]))
+        FINALIDNFE.append(int(s[5]))
+        SITUACAO.append(int(s[6]))
+        PESO.append(str(s[7]))
+        PRAZOPGTO.append(int(s[8]))
+        VALORPRODS.append(str(s[9]))
+        VALORDESC.append(str(s[10]))
+        VALOR.append(str(s[11]))
+        VALBASEICMS.append(str(s[12]))
+        VALICMS.append(str(s[13]))
+        COMISSAO.append(str(s[14]))
+    s = arq.readline().rstrip()
+    i += 1
+arq.close
+
+sql = """
+   CREATE TABLE IF NOT EXISTS Pedidos (
+    NUMPED INTEGER PRIMARY KEY,
+    DATAPED TEXT,
+    HORAPED TEXT,
+    CODCLIEN TEXT,
+    ES TEXT,
+    FINALIDNFE INTEGER,
+    SITUACAO INTEGER,
+    PESO TEXT,
+    PRAZOPGTO INTEGER,
+    VALORPRODS TEXT,
+    VALORDESC TEXT,
+    VALOR TEXT,
+    VALBASEICMS TEXT,
+    VALICMS TEXT,
+    COMISSAO TEXT
+);
+"""
+cursor.execute(sql)
+
+for i in range(len(NUMPED)):
+    sql = """
+        INSERT INTO Pedidos (NUMPED, DATAPED, HORAPED, CODCLIEN, ES, FINALIDNFE, SITUACAO, PESO, PRAZOPGTO, VALORPRODS, VALORDESC, VALOR, VALBASEICMS, VALICMS, COMISSAO)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """
+    cursor.execute(sql, (
+        NUMPED[i],
+        DATAPED[i],
+        HORAPED[i],
+        CODCLIEN[i],
+        ES[i],
+        FINALIDNFE[i],
+        SITUACAO[i],
+        PESO[i],
+        PRAZOPGTO[i],
+        VALORPRODS[i],
+        VALORDESC[i],
+        VALOR[i],
+        VALBASEICMS[i],
+        VALICMS[i],
+        COMISSAO[i]
+    ))
+
+
+print("Valores Adicionados com Sucesso a Pedidos!")
+
+
 connector.commit()
 cursor.close
 connector.close()
