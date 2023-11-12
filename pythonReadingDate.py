@@ -8,6 +8,12 @@ TipoPess = []
 NomeFan = []
 ComissaoBase = []
 
+tabelas = ['Repres', 'FornClien', 'PedidosItem', 'Produtos', 'Pedidos']
+
+for tabela in tabelas:
+    sql = f"DROP TABLE IF EXISTS {tabela};"
+    cursor.execute(sql)
+
 i = 0
 arq = open("Repres.CSV", "r")
 s = arq.readline().rstrip()
@@ -25,10 +31,10 @@ arq.close
 sql = """
     CREATE TABLE IF NOT EXISTS Repres
     (
-    CODREPRES integer primary key,
-    TIPOPESS string,
-    NOMEFAN string,
-    COMISSAOBASE numeric
+    CODREPRES INTEGER PRIMARY KEY,
+    TIPOPESS TEXT,
+    NOMEFAN TEXT,
+    COMISSAOBASE NUMERIC
     )
 """
 cursor.execute(sql)
@@ -36,13 +42,13 @@ cursor.execute(sql)
 print("Tabela Repres Criada 🚀")
 
 for i in range(len(CodRrepres)):
-    sql = f"""
+    sql = """
         INSERT INTO Repres (CODREPRES, TIPOPESS, NOMEFAN, COMISSAOBASE)
-        VALUES ({CodRrepres[i]}, '{TipoPess[i]}', '{NomeFan[i]}', {ComissaoBase[i]})
+        VALUES (?,?,?,?)
     """
-    cursor.execute(sql)
+    cursor.execute(sql, (CodRrepres[i], TipoPess[i], NomeFan[i], ComissaoBase[i]))
 
-print("Valores Adicionados com Sucesso!")
+print("Valores Adicionados com Sucesso a Repres!")
 
 i = 0
 
@@ -79,16 +85,16 @@ arq.close
 sql = """
     CREATE TABLE IF NOT EXISTS FornClien
     (
-    CODCLIFOR integer primary key,
-    TIPOCF integer,
-    CODREPRES string,
-    NOMEFAN string,
-    CIDADE string,
-    UF string,
-    CODMUNICIPIO string,
-    TIPOPESSOA integer,
-    COBRBANC integer,
-    PRAZOPGTO string
+    CODCLIFOR INTEGER PRIMARY KEY,
+    TIPOCF INTEGER,
+    CODREPRES TEXT,
+    NOMEFAN TEXT,
+    CIDADE TEXT,
+    UF TEXT,
+    CODMUNICIPIO TEXT,
+    TIPOPESSOA INTEGER,
+    COBRBANC INTEGER,
+    PRAZOPGTO TEXT
     )
 """
 cursor.execute(sql)
@@ -96,9 +102,9 @@ cursor.execute(sql)
 for i in range(len(CodCliFor)):
     sql = f"""
         INSERT INTO FornClien (CODCLIFOR, TIPOCF, CODREPRES, NOMEFAN, CIDADE, UF, CODMUNICIPIO, TIPOPESSOA, COBRBANC, PRAZOPGTO)
-        VALUES ({CodCliFor[i]}, {TipoCF[i]}, '{CodRepres[i]}', '{NomeFan[i]}', '{Cidade[i]}', '{Uf[i]}', '{CodMunicipio[i]}', {TipoPessoa[i]}, {Cobranc[i]}, '{PrazoPgto[i]}')
+        VALUES (?,?,?,?,?,?,?,?,?,?)
     """
-    cursor.execute(sql)
+    cursor.execute(sql, (CodCliFor[i], TipoCF[i], CodRepres[i], NomeFan[i], Cidade[i], Uf[i], CodMunicipio[i], TipoPessoa[i], Cobranc[i], PrazoPgto[i]))
 
 print("Valores Adicionados com Sucesso a ClienFor!")
 
