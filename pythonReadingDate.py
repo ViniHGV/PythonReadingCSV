@@ -102,6 +102,72 @@ for i in range(len(CodCliFor)):
 
 print("Valores Adicionados com Sucesso a ClienFor!")
 
+
+NUMPED =[]
+NUMITEM =[]
+CODPROD =[]
+QTDE =[]
+VALUNIT =[]
+UNID =[]
+ALIQICMS =[]
+COMISSAO =[]
+STICMS =[]
+CFOP =[]
+REDUCBASEICMS =[]
+
+i=0
+arq = open("PedidosItem.CSV")
+s = arq.readline().rstrip()
+while s != "":
+    s = s.split(";")
+    if i > 0:
+        # NUMPED.append(int(str(s[0].replace(".", ""))))
+        NUMPED.append(str(s[0]))
+        NUMITEM.append(str(s[1]))
+        # CODPROD.append(int(str(s[2].replace(".", ""))))
+        CODPROD.append(str(s[2].replace(".", "")))
+        QTDE.append(str(s[3]))
+        VALUNIT.append(str(s[4]))
+        UNID.append(str(s[5]))
+        ALIQICMS.append(str(s[6]))
+        COMISSAO.append(str(s[7]))
+        STICMS.append(str(s[8]))
+        CFOP.append(str(s[9]))
+        REDUCBASEICMS.append(str(s[10]))
+    s = arq.readline().rstrip()
+    i += 1
+arq.close
+
+sql = """
+    CREATE TABLE IF NOT EXISTS PedidosItem
+    (
+    id integer primary key autoincrement,
+    NUMPED string,
+    NUMITEM string,
+    CODPROD string,
+    QTDE string,
+    VALUNIT string,
+    UNID string,
+    ALIQICMS string,
+    COMISSAO string,
+    STICMS string,
+    CFOP string,
+    REDUCBASEICMS string
+    )
+"""
+cursor.execute(sql)
+
+for i in range(len(NUMITEM)):
+    sql = f"""
+        INSERT INTO PedidosItem (NUMPED, NUMITEM, CODPROD, QTDE, VALUNIT, UNID, ALIQICMS, COMISSAO, STICMS, CFOP, REDUCBASEICMS)
+        VALUES ('{NUMPED[i]}', '{NUMITEM[i]}', '{CODPROD[i]}', '{QTDE[i]}', '{VALUNIT[i]}', '{UNID[i]}','{ALIQICMS[i]}', '{COMISSAO[i]}', '{STICMS[i]}', '{CFOP[i]}', '{REDUCBASEICMS[i]}')
+    """
+    cursor.execute(sql)
+
+print("Valores Adicionados com Sucesso a PedidosItem!")
+
+
+
 connector.commit()
 cursor.close
 connector.close()
