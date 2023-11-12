@@ -122,16 +122,16 @@ while s != "":
     s = s.split(";")
     if i > 0:
         # NUMPED.append(int(str(s[0].replace(".", ""))))
-        NUMPED.append(str(s[0]))
-        NUMITEM.append(str(s[1]))
         # CODPROD.append(int(str(s[2].replace(".", ""))))
+        NUMPED.append(str(s[0]))
+        NUMITEM.append(int(s[1]))
         CODPROD.append(str(s[2].replace(".", "")))
         QTDE.append(str(s[3]))
         VALUNIT.append(str(s[4]))
         UNID.append(str(s[5]))
         ALIQICMS.append(str(s[6]))
         COMISSAO.append(str(s[7]))
-        STICMS.append(str(s[8]))
+        STICMS.append(int(s[8]))
         CFOP.append(str(s[9]))
         REDUCBASEICMS.append(str(s[10]))
     s = arq.readline().rstrip()
@@ -143,14 +143,14 @@ sql = """
     (
     id integer primary key autoincrement,
     NUMPED string,
-    NUMITEM string,
+    NUMITEM integer,
     CODPROD string,
     QTDE string,
     VALUNIT string,
     UNID string,
     ALIQICMS string,
     COMISSAO string,
-    STICMS string,
+    STICMS integer,
     CFOP string,
     REDUCBASEICMS string
     )
@@ -160,7 +160,7 @@ cursor.execute(sql)
 for i in range(len(NUMITEM)):
     sql = f"""
         INSERT INTO PedidosItem (NUMPED, NUMITEM, CODPROD, QTDE, VALUNIT, UNID, ALIQICMS, COMISSAO, STICMS, CFOP, REDUCBASEICMS)
-        VALUES ('{NUMPED[i]}', '{NUMITEM[i]}', '{CODPROD[i]}', '{QTDE[i]}', '{VALUNIT[i]}', '{UNID[i]}','{ALIQICMS[i]}', '{COMISSAO[i]}', '{STICMS[i]}', '{CFOP[i]}', '{REDUCBASEICMS[i]}')
+        VALUES ('{NUMPED[i]}', {NUMITEM[i]}, '{CODPROD[i]}', '{QTDE[i]}', '{VALUNIT[i]}', '{UNID[i]}','{ALIQICMS[i]}', '{COMISSAO[i]}', {STICMS[i]}, '{CFOP[i]}', '{REDUCBASEICMS[i]}')
     """
     cursor.execute(sql)
 
