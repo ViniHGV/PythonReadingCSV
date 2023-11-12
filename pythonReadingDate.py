@@ -127,8 +127,6 @@ s = arq.readline().rstrip()
 while s != "":
     s = s.split(";")
     if i > 0:
-        # NUMPED.append(int(str(s[0].replace(".", ""))))
-        # CODPROD.append(int(str(s[2].replace(".", ""))))
         NUMPED.append(str(s[0]))
         NUMITEM.append(int(s[1]))
         CODPROD.append(str(s[2].replace(".", "")))
@@ -147,18 +145,18 @@ arq.close
 sql = """
     CREATE TABLE IF NOT EXISTS PedidosItem
     (
-    id integer primary key autoincrement,
-    NUMPED string,
-    NUMITEM integer,
-    CODPROD string,
-    QTDE string,
-    VALUNIT string,
-    UNID string,
-    ALIQICMS string,
-    COMISSAO string,
-    STICMS integer,
-    CFOP string,
-    REDUCBASEICMS string
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    NUMPED TEXT,
+    NUMITEM INTEGER,
+    CODPROD TEXT,
+    QTDE TEXT,
+    VALUNIT TEXT,
+    UNID TEXT,
+    ALIQICMS TEXT,
+    COMISSAO TEXT,
+    STICMS INTEGER,
+    CFOP TEXT,
+    REDUCBASEICMS TEXT
     )
 """
 cursor.execute(sql)
@@ -166,9 +164,9 @@ cursor.execute(sql)
 for i in range(len(NUMITEM)):
     sql = f"""
         INSERT INTO PedidosItem (NUMPED, NUMITEM, CODPROD, QTDE, VALUNIT, UNID, ALIQICMS, COMISSAO, STICMS, CFOP, REDUCBASEICMS)
-        VALUES ('{NUMPED[i]}', {NUMITEM[i]}, '{CODPROD[i]}', '{QTDE[i]}', '{VALUNIT[i]}', '{UNID[i]}','{ALIQICMS[i]}', '{COMISSAO[i]}', {STICMS[i]}, '{CFOP[i]}', '{REDUCBASEICMS[i]}')
+        VALUES (?,?,?,?,?,?,?,?,?,?,?)
     """
-    cursor.execute(sql)
+    cursor.execute(sql, (NUMPED[i], NUMITEM[i], CODPROD[i], QTDE[i], VALUNIT[i], UNID[i],ALIQICMS[i], COMISSAO[i], STICMS[i], CFOP[i], REDUCBASEICMS[i]))
 
 print("Valores Adicionados com Sucesso a PedidosItem!")
 
@@ -193,8 +191,6 @@ s = arq.readline().rstrip()
 while s != "":
     s = s.split(";")
     if i > 0:
-        # NUMPED.append(int(str(s[0].replace(".", ""))))
-        # CODPROD.append(int(str(s[2].replace(".", ""))))
         CODPROD.append(int(str(s[0].replace(".", ""))))
         NOMEPROD.append(str(s[1]))
         CODFORNE.append(str(s[2]))
