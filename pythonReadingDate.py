@@ -103,17 +103,17 @@ for i in range(len(CodCliFor)):
 print("Valores Adicionados com Sucesso a ClienFor!")
 
 
-NUMPED =[]
-NUMITEM =[]
-CODPROD =[]
-QTDE =[]
-VALUNIT =[]
-UNID =[]
-ALIQICMS =[]
-COMISSAO =[]
-STICMS =[]
-CFOP =[]
-REDUCBASEICMS =[]
+NUMPED = []
+NUMITEM = []
+CODPROD = []
+QTDE = []
+VALUNIT = []
+UNID = []
+ALIQICMS = []
+COMISSAO = []
+STICMS = []
+CFOP = []
+REDUCBASEICMS = []
 
 i=0
 arq = open("PedidosItem.CSV")
@@ -167,6 +167,74 @@ for i in range(len(NUMITEM)):
 print("Valores Adicionados com Sucesso a PedidosItem!")
 
 
+CODPROD = []
+NOMEPROD = []
+CODFORNE = []
+UNIDADE = []
+ALIQICMS = []
+VALCUSTO = []
+VALVENDA = []
+QTDEMIN = []
+QTDEESTQ = []
+GRUPO = []
+CLASSESTQ = []
+COMISSAO = []
+PESOBRUTO = []
+
+i=0
+arq = open("Produtos.CSV")
+s = arq.readline().rstrip()
+while s != "":
+    s = s.split(";")
+    if i > 0:
+        # NUMPED.append(int(str(s[0].replace(".", ""))))
+        # CODPROD.append(int(str(s[2].replace(".", ""))))
+        CODPROD.append(int(str(s[0].replace(".", ""))))
+        NOMEPROD.append(str(s[1]))
+        CODFORNE.append(str(s[2]))
+        UNIDADE.append(int(s[3]))
+        ALIQICMS.append(str(s[4]))
+        VALCUSTO.append(str(s[5]))
+        VALVENDA.append(str(s[6]))
+        QTDEMIN.append(str(s[7]))
+        QTDEESTQ.append(str(s[8]))
+        GRUPO.append(int(s[9]))
+        CLASSESTQ.append(str(s[10]))
+        COMISSAO.append(str(s[11]))
+        PESOBRUTO.append(str(s[12]))
+    s = arq.readline().rstrip()
+    i += 1
+arq.close
+
+sql = """
+    CREATE TABLE IF NOT EXISTS Produtos
+    (
+    CODPROD INTEGER PRIMARY KEY,
+    NOMEPROD TEXT,
+    CODFORNE TEXT,
+    UNIDADE TEXT,  
+    ALIQICMS TEXT,
+    VALCUSTO TEXT,
+    VALVENDA TEXT,
+    QTDEMIN TEXT,
+    QTDEESTQ INTEGER, 
+    GRUPO INTEGER,
+    CLASSESTQ TEXT,
+    COMISSAO TEXT,
+    PESOBRUTO TEXT 
+    )
+"""
+cursor.execute(sql)
+
+for i in range(len(CODPROD)):
+    sql = """
+        INSERT INTO Produtos (CODPROD, NOMEPROD, CODFORNE, UNIDADE, ALIQICMS, VALCUSTO, VALVENDA, QTDEMIN, QTDEESTQ, GRUPO, CLASSESTQ, COMISSAO, PESOBRUTO)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """
+    cursor.execute(sql, (CODPROD[i], NOMEPROD[i], CODFORNE[i], UNIDADE[i], ALIQICMS[i], VALCUSTO[i], VALVENDA[i], QTDEMIN[i], QTDEESTQ[i], GRUPO[i], CLASSESTQ[i], COMISSAO[i], PESOBRUTO[i]))
+
+
+print("Valores Adicionados com Sucesso a Produtos!")
 
 connector.commit()
 cursor.close
