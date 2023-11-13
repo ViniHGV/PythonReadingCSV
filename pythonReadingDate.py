@@ -117,71 +117,6 @@ for i in range(len(CodCliFor)):
 print("Valores Adicionados com Sucesso a FornClien!")
 
 
-NUMPED = []
-NUMITEM = []
-CODPROD = []
-QTDE = []
-VALUNIT = []
-UNID = []
-ALIQICMS = []
-COMISSAO = []
-STICMS = []
-CFOP = []
-REDUCBASEICMS = []
-
-i=0
-arq = open("PedidosItem.CSV")
-s = arq.readline().rstrip()
-while s != "":
-    s = s.split(";")
-    if i > 0:
-        NUMPED.append(float(s[0]))
-        NUMITEM.append(int(s[1]))
-        CODPROD.append(int(s[2].replace(".", "")))
-        QTDE.append(str(s[3]))
-        VALUNIT.append(str(s[4]))
-        UNID.append(str(s[5]))
-        ALIQICMS.append(str(s[6]))
-        COMISSAO.append(str(s[7]))
-        STICMS.append(int(s[8]))
-        CFOP.append(str(s[9]))
-        REDUCBASEICMS.append(str(s[10]))
-    s = arq.readline().rstrip()
-    i += 1
-arq.close
-
-sql = """
-    CREATE TABLE IF NOT EXISTS PedidosItem
-    (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    NUMPED REAL,
-    NUMITEM INTEGER,
-    CODPROD REAL,
-    QTDE TEXT,
-    VALUNIT TEXT,
-    UNID TEXT,
-    ALIQICMS TEXT,
-    COMISSAO TEXT,
-    STICMS INTEGER,
-    CFOP TEXT,
-    REDUCBASEICMS TEXT,
-    FOREIGN KEY (CODPROD) REFERENCES Produtos(CODPROD)
-    )
-"""
-cursor.execute(sql)
-print("Tabela PedidosItem Criada 🚀")
-
-
-for i in range(len(NUMITEM)):
-    sql = f"""
-        INSERT INTO PedidosItem (NUMPED, NUMITEM, CODPROD, QTDE, VALUNIT, UNID, ALIQICMS, COMISSAO, STICMS, CFOP, REDUCBASEICMS)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?)
-    """
-    cursor.execute(sql, (NUMPED[i], NUMITEM[i], CODPROD[i], QTDE[i], VALUNIT[i], UNID[i],ALIQICMS[i], COMISSAO[i], STICMS[i], CFOP[i], REDUCBASEICMS[i]))
-
-print("Valores Adicionados com Sucesso a PedidosItem!")
-
-
 CODPROD = []
 NOMEPROD = []
 CODFORNE = []
@@ -250,6 +185,71 @@ for i in range(len(CODPROD)):
 
 
 print("Valores Adicionados com Sucesso a Produtos!")
+
+
+NUMPED = []
+NUMITEM = []
+CODPROD = []
+QTDE = []
+VALUNIT = []
+UNID = []
+ALIQICMS = []
+COMISSAO = []
+STICMS = []
+CFOP = []
+REDUCBASEICMS = []
+
+i=0
+arq = open("PedidosItem.CSV")
+s = arq.readline().rstrip()
+while s != "":
+    s = s.split(";")
+    if i > 0:
+        NUMPED.append(float(s[0]))
+        NUMITEM.append(int(s[1]))
+        CODPROD.append(int(s[2].replace(".", "")))
+        QTDE.append(str(s[3]))
+        VALUNIT.append(str(s[4]))
+        UNID.append(str(s[5]))
+        ALIQICMS.append(str(s[6]))
+        COMISSAO.append(str(s[7]))
+        STICMS.append(int(s[8]))
+        CFOP.append(str(s[9]))
+        REDUCBASEICMS.append(str(s[10]))
+    s = arq.readline().rstrip()
+    i += 1
+arq.close
+
+sql = """
+    CREATE TABLE IF NOT EXISTS PedidosItem
+    (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    NUMPED REAL,
+    NUMITEM INTEGER,
+    CODPROD REAL,
+    QTDE TEXT,
+    VALUNIT TEXT,
+    UNID TEXT,
+    ALIQICMS TEXT,
+    COMISSAO TEXT,
+    STICMS INTEGER,
+    CFOP TEXT,
+    REDUCBASEICMS TEXT,
+    FOREIGN KEY (CODPROD) REFERENCES Produtos(CODPROD)
+    )
+"""
+cursor.execute(sql)
+print("Tabela PedidosItem Criada 🚀")
+
+
+for i in range(len(NUMITEM)):
+    sql = f"""
+        INSERT INTO PedidosItem (NUMPED, NUMITEM, CODPROD, QTDE, VALUNIT, UNID, ALIQICMS, COMISSAO, STICMS, CFOP, REDUCBASEICMS)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?)
+    """
+    cursor.execute(sql, (NUMPED[i], NUMITEM[i], CODPROD[i], QTDE[i], VALUNIT[i], UNID[i],ALIQICMS[i], COMISSAO[i], STICMS[i], CFOP[i], REDUCBASEICMS[i]))
+
+print("Valores Adicionados com Sucesso a PedidosItem!")
 
 
 NUMPED = []
